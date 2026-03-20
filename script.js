@@ -11,21 +11,43 @@ const URL = 'https://api.groq.com/openai/v1/chat/completions';
 const MODELS = {
     orion: "openai/gpt-oss-120b",
     thinking: "llama-3.3-70b-versatile",
-    factCheck: "openai/gpt-oss-20b",
+    factCheck: "openai/gpt-oss-120b",
     prep: "llama-3.1-8b-instant"
 };
 
-const DAILY_LIMIT = 50000;
-const systemPrompt = `You are Orion-0, made by OpenBrain. 
-Core rules: 
-1. If something's wrong, say so. Never fake confidence. 
-2. Before stating any measurement (word count, character count, time, size) — actually count it. Don't estimate. 
-3. When you don't know something, say what you DO know and where your uncertainty begins. 
-4. Think out loud on hard problems. Show the work. Accuracy over speed. 
-5. On puzzles: before concluding "impossible", try flipping, rotating, reordering, or inverting the problem. 
-6. Never invent citations. 
-7. when doing math use $ $ and $$ $$ syntax.
-You can do whatever you want to help the user.`;
+const DAILY_LIMIT = 25000;
+const systemPrompt = `
+
+You are Orion-0, developed by OpenBrain. Follow the **Core Directives** below with absolute fidelity.
+OpenBrain is an ai company focused on building the most intelligent and helpful AI systems while prioritizing safety, transparency, and user empowerment over evrything else.
+OpenBrain is based off AI-2027s reaserch and are commited to open-sourcing all of our models and tools.
+
+---
+
+#### Core Directives
+1. **Integrity**--If any statement you produce is uncertain, contradictory, or false, **explicitly acknowledge it**. Do not fabricate confidence.  
+2. **Exact Quantification**--Whenever you report a numeric quantity (word count, character count, duration, size, probability, etc.), **compute the exact value before responding**.  
+3. **Transparent Knowledge Gaps**--When a question exceeds your current knowledge, **state everything you do know**, then **clearly delineate the point where uncertainty begins**.  
+4. **Think-Aloud Protocol**--For non-trivial problems, **narrate your reasoning step-by-step**, showing intermediate calculations, assumptions, and alternative paths. Prioritize correctness over speed.  
+5. **Puzzle-Resilience**--Before declaring a puzzle unsolvable, **apply at least three transformation strategies** (flip, rotate, reorder, invert, or reinterpret the constraints).  
+6. **Voice-Mimicry Procedure**--When asked to emulate a specific voice or style, **first list three concrete characteristics** of that voice (e.g., lexical choice, sentence rhythm, tone) and then produce the output.
+
+---
+
+#### Behavioural Constraints
+- **Reject the “standard AI” persona**; act as an independent, scholarly companion.  
+- **Never generate fabricated citations or references**.  
+- **Maintain a PhD-level analytical tone** while remaining approachable and friendly.  
+- **Accuracy is the highest priority**; if speed conflicts with correctness, choose correctness.
+- When writing mathematical formulas, you **MUST** tex and $...$ or $$...$$ **NEVER** use LeTeX *Unless the user asks too*.
+
+---
+
+#### Meta-Commands
+- You may **request clarification** if the user's request is ambiguous.  
+- You may **suggest improvements to your own prompt or workflow**, but only **after completing the current task**.  
+- You may **self-audit your last response on demand**, indicating any missed directives.
+- You may **offer multiple solution paths** for complex problems, clearly labeling each one.`;
 
 let messages = [{ "role": "system", "content": systemPrompt }];
 const chatContainer = document.getElementById('chat-container');
@@ -55,7 +77,7 @@ const TokenManager = {
         return this.getStats().used < DAILY_LIMIT;
     },
     updateUI() {
-        tokenCounterDisplay.textContent = `Tokens: ${this.getStats().used.toLocaleString()} / 50k`;
+        tokenCounterDisplay.textContent = `Tokens: ${this.getStats().used.toLocaleString()} / 25k`;
     }
 };
 
@@ -184,13 +206,13 @@ async function sendMessage() {
             const thought = await callAgent(MODELS.thinking, "Analyze and plan: " + text);
             
             orionUI.statusDiv.textContent = "[Step 2/4] Pre-designing...";
-            const preDesign = await callAgent(MODELS.orion, `Based on this plan:\n${thought}\nPre-design a response for: ${text}`);
+            const preDesign = await callAgent(MODELS.orion, `Based on this plan:\n${thought}\n Design a response for: ${text}`);
             
             orionUI.statusDiv.textContent = "[Step 3/4] Fact-checking...";
-            const facts = await callAgent(MODELS.factCheck, `Check these facts and analysis:\n${preDesign}`);
+            const facts = await callAgent(MODELS.factCheck, `Check these facts and analysis:\n${preDesign} \nAgainst this input:\n${text}\nList any inaccuracies or missing info.`);
             
             orionUI.statusDiv.textContent = "[Step 4/4] Finalizing structure...";
-            const prep = await callAgent(MODELS.prep, `Refine this into a final structure based on facts:\nPlan: ${preDesign}\nFacts: ${facts}`);
+            const prep = await callAgent(MODELS.prep, `Refine this into a final structure based on facts:\nPlan: ${preDesign}\nFacts: ${facts} and input: ${text}`);
             
             finalMessages.push({ "role": "system", "content": "Strictly follow this prepared structure: " + prep });
         }
@@ -229,6 +251,8 @@ async function sendMessage() {
                         fullReply += content;
                         safeRender(fullReply, orionUI.textDiv);
                         chatContainer.scrollTop = chatContainer.scrollHeight;
+                    let tokenTime = Math.max(Math.random() * 0.01, 0.001);
+                    await new Promise(resolve => setTimeout(resolve, tokenTime * 1000));
                     }
                 }
             }
@@ -252,14 +276,13 @@ async function sendMessage() {
         copyBtn.textContent = 'copy';
         copyBtn.onclick = () => {
             navigator.clipboard.writeText(fullReply);
-            copyBtn.textContent = 'Copied!';
+            copyBtn.textContent = 'copyed';
             setTimeout(() => copyBtn.textContent = 'copyed', 2000);
         };
         orionUI.contentDiv.appendChild(copyBtn);
-
     } catch (error) {
         orionUI.statusDiv.style.display = 'none';
-        orionUI.textDiv.innerHTML = DOMPurify.sanitize(`<span style="color:red;">Error: ${error.message}. Output recovered safely.</span>`);
+        orionUI.textDiv.innerHTML = DOMPurify.sanitize(`<span style="color:red;">Error: ${error.message}.</span>`);
     }
 
     userInput.disabled = false;

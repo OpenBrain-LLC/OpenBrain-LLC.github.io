@@ -106,11 +106,12 @@ body {
     cursor: pointer;
     transition: background-color 0.2s;
 }
+
 .copy-btn:hover { background-color: #555; color: white; }
 
 #input-container {
     padding: 24px;
-    background-color: var(--bg-color);
+    background-image: linear-gradient(to top, transparent, transparent);
     display: flex;
     justify-content: center;
 }
@@ -131,6 +132,7 @@ body {
     padding: 12px;
     font-size: 1rem;
     outline: none;
+    appearance: none;
     height: 54px;
     cursor: pointer;
 }
