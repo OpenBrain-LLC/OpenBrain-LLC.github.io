@@ -9,11 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
     <script>
         window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['(', ')']],
-                displayMath: [['$$', '$$'], ['[', ']']],
-                processEscapes: true
-            },
+            tex: { inlineMath: [['$', '$'], ['(', ')']], displayMath: [['$$', '$$'], ['[', ']']], processEscapes: true },
             svg: { fontCache: 'global' }
         };
     </script>
@@ -27,9 +23,9 @@
             <button id="restart-btn">Restart Chat</button>
         </div>
     </div>
-    
+
     <div id="chat-container"></div>
-    
+
     <div id="input-container">
         <div id="input-row">
             <select id="mode-selector">
@@ -37,14 +33,13 @@
                 <option value="smart">smart, balanced</option>
                 <option value="deep">deep, heavy duty</option>
             </select>
-            
+
             <div id="input-wrapper">
                 <textarea id="user-input" rows="1" placeholder="Message Orion..."></textarea>
                 <button id="send-btn">Send</button>
             </div>
         </div>
     </div>
-    
     <script src="script.js"></script>
 </body>
 </html>
