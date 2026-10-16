@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenBrain-LLC — Agent-0</title>
+<meta name="description" content="OpenBrain-LLC builds Agent-0, a local-first CLI agent that runs on your machine.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="static/light.css">
+<link rel="stylesheet" href="static/dark.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html">
+      <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9.1" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="11" r="3.1" fill="currentColor"/></svg>
+      <span>OpenBrain</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="news.html">News</a>
+      <a href="help.html">Help</a>
+      <a href="info.html">Info</a>
+      <a href="roadmap.html">Roadmap</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-sm" href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">GitHub</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="news.html">News</a>
+    <a href="help.html">Help</a>
+    <a href="info.html">Info</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow reveal" style="--d:0ms">OpenBrain-LLC</p>
+        <h1 class="reveal" style="--d:60ms">An AI agent that runs <em>on your machine.</em></h1>
+        <p class="lede reveal" style="--d:120ms">
+          Agent-0 is a CLI agent that talks to Ollama locally or Groq over the network.
+          It keeps notes, remembers sessions, and asks before it runs a shell command.
+        </p>
+        <div class="hero-actions reveal" style="--d:180ms">
+          <a class="btn" href="https://github.com/OpenBrain-LLC/Agent-0" target="_blank" rel="noopener">View Agent-0</a>
+          <a class="btn btn-ghost" href="news/introducing-agent-0.html">Read the introduction</a>
+        </div>
+      </div>
+      <div class="reveal" style="--d:240ms">
+        <div class="window">
+          <div class="window-bar">
+            <i></i><i></i><i></i>
+            <span class="window-title">agent-0 — local session</span>
+          </div>
+          <pre class="term"><span class="t-prompt">$</span> <span class="t-cmd">agent-0 --model llama3.2</span>
+<span class="t-dim">Agent-0 v1.0  ·  backend ollama  ·  5 tools</span>
+
+<span class="t-prompt">›</span> <span class="t-cmd">Summarize today's AI news and save a note</span>
+
+  <span class="t-arrow">→</span> <span class="t-dim">web_search("AI news")</span>
+  <span class="t-arrow">→</span> <span class="t-dim">memory_append("briefs", "…")</span>
+
+  <span class="t-ok">Done.</span> <span class="t-dim">Note written to memory.md</span></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Start here</p>
+        <h2>Three things to read.</h2>
+      </div>
+      <div class="cards">
+        <article class="card reveal" style="--d:0ms">
+          <h3>Introducing Agent-0</h3>
+          <p>The full document. What it is, how it works, what it won't do, and where it's going.</p>
+          <a class="card-link" href="news/introducing-agent-0.html">
+            Read it
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+        <article class="card reveal" style="--d:80ms">
+          <h3>Help</h3>
+          <p>Setup, backends, the five tools, and what the agent will do on its own.</p>
+          <a class="card-link" href="help.html">
+            Open Help
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+        <article class="card reveal" style="--d:160ms">
+          <h3>Roadmap</h3>
+          <p>Priorities for the next few releases. What we know is broken and what we're fixing first.</p>
+          <a class="card-link" href="roadmap.html">
+            See the roadmap
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Latest</p>
+        <h2>From the news page.</h2>
+      </div>
+      <ul class="row-list">
+        <li class="reveal" style="--d:0ms">
+          <a href="news/introducing-agent-0.html">
+            <span class="row-date">Oct 2026</span>
+            <span class="row-title">Introducing Agent-0</span>
+            <span class="row-meta">Article</span>
+            <svg class="row-arrow" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </li>
+        <li class="reveal" style="--d:80ms">
+          <a href="news.html#reclining">
+            <span class="row-date">Oct 2026</span>
+            <span class="row-title">Reclining Agent-0</span>
+            <span class="row-meta">Announcement</span>
+            <svg class="row-arrow" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap reveal">
+      <h2>Follow along.</h2>
+      <p>Watch the repository and tell us what we're getting wrong. Issues are the best place to start.</p>
+      <div class="cta-actions">
+        <a class="btn btn-invert" href="https://github.com/OpenBrain-LLC/Agent-0" target="_blank" rel="noopener">Open the repo</a>
+        <a class="btn btn-invert-ghost" href="https://github.com/OpenBrain-LLC/Agent-0/issues" target="_blank" rel="noopener">Open an issue</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="index.html">
+          <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9.1" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="11" r="3.1" fill="currentColor"/></svg>
+          <span>OpenBrain</span>
+        </a>
+        <p>An AI company building Agent-0. Based on AI-2027's OpenBrain.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="news.html">News</a></li>
+          <li><a href="help.html">Help</a></li>
+          <li><a href="info.html">Info</a></li>
+          <li><a href="roadmap.html">Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Articles</h4>
+        <ul><li><a href="news/introducing-agent-0.html">Introducing Agent-0</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>GitHub</h4>
+        <ul>
+          <li><a href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">Org</a></li>
+          <li><a href="https://github.com/OpenBrain-LLC/Agent-0" target="_blank" rel="noopener">Agent-0 repo</a></li>
+          <li><a href="https://github.com/OpenBrain-LLC/Agent-0/issues" target="_blank" rel="noopener">Issues</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 OpenBrain-LLC.</span>
+      <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

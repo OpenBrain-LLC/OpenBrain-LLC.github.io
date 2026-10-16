@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Info — OpenBrain-LLC</title>
+<meta name="description" content="About OpenBrain-LLC and Agent-0.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="static/light.css">
+<link rel="stylesheet" href="static/dark.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html">
+      <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9.1" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="11" r="3.1" fill="currentColor"/></svg>
+      <span>OpenBrain</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="news.html">News</a>
+      <a href="help.html">Help</a>
+      <a href="info.html" class="is-active">Info</a>
+      <a href="roadmap.html">Roadmap</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-sm" href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">GitHub</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="news.html">News</a>
+    <a href="help.html">Help</a>
+    <a href="info.html">Info</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow reveal" style="--d:0ms">Info</p>
+      <h1 class="reveal" style="--d:60ms">About OpenBrain-LLC.</h1>
+      <p class="lede reveal" style="--d:120ms">We build Agent-0. The name and premise come from the Agent-0 in AI-2027. This is the version you can install.</p>
+    </div>
+  </section>
+
+  <section class="section" style="border-top:0;padding-top:0">
+    <div class="wrap">
+      <div class="info-grid" style="margin-top:0">
+
+        <div class="info-block reveal" style="--d:0ms">
+          <h3>What Agent-0 is</h3>
+          <p>A CLI agent that runs on your machine. You type at it, it thinks, it calls tools. It keeps notes in a markdown file, saves the session as JSON, and can work on a goal in the background.</p>
+        </div>
+
+        <div class="info-block reveal" style="--d:80ms">
+          <h3>How it's built</h3>
+          <p>A single Python file. There's no daemon and no build step. Python 3.10 or later is required.</p>
+        </div>
+
+        <div class="info-block reveal" style="--d:160ms">
+          <h3>Backends</h3>
+          <p><strong>Ollama</strong> runs locally. It's free, private, and works with whatever you've pulled. <strong>Groq</strong> runs remotely. It's fast and needs an API key.</p>
+        </div>
+
+        <div class="info-block reveal" style="--d:240ms">
+          <h3>Where to find it</h3>
+          <p>The code lives at <a href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:2px">github.com/OpenBrain-LLC</a>. Issues and pull requests are welcome.</p>
+        </div>
+
+        <div class="info-block reveal" style="--d:320ms">
+          <h3>Tools</h3>
+          <p>Five: <code>shell</code>, <code>web_search</code>, <code>fetch_url</code>, <code>memory_append</code>, and <code>memory_write</code>. The list isn't extensible at runtime.</p>
+        </div>
+
+        <div class="info-block reveal" style="--d:400ms">
+          <h3>Safety</h3>
+          <p>Shell always asks before running. Guardrails catch common dangerous patterns like <code>rm -rf /</code> and <code>curl | bash</code>, though they're regex-based and miss unusual commands.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap reveal">
+      <h2>Read the full introduction.</h2>
+      <p>The long-form document covers design decisions, known limitations, and how the goal loop works.</p>
+      <div class="cta-actions">
+        <a class="btn btn-invert" href="news/introducing-agent-0.html">Read the article</a>
+        <a class="btn btn-invert-ghost" href="https://github.com/OpenBrain-LLC/Agent-0" target="_blank" rel="noopener">Open the repo</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="index.html">
+          <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9.1" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="11" r="3.1" fill="currentColor"/></svg>
+          <span>OpenBrain</span>
+        </a>
+        <p>An AI company building Agent-0. Based on AI-2027's OpenBrain.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="news.html">News</a></li>
+          <li><a href="help.html">Help</a></li>
+          <li><a href="info.html">Info</a></li>
+          <li><a href="roadmap.html">Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Articles</h4>
+        <ul><li><a href="news/introducing-agent-0.html">Introducing Agent-0</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>GitHub</h4>
+        <ul>
+          <li><a href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">Org</a></li>
+          <li><a href="https://github.com/OpenBrain-LLC/Agent-0" target="_blank" rel="noopener">Agent-0 repo</a></li>
+          <li><a href="https://github.com/OpenBrain-LLC/Agent-0/issues" target="_blank" rel="noopener">Issues</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 OpenBrain-LLC.</span>
+      <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

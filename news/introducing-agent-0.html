@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introducing Agent-0 — OpenBrain-LLC</title>
+<meta name="description" content="A full walkthrough of Agent-0: what it is, how it works, and what it won't do.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="../static/light.css">
+<link rel="stylesheet" href="../static/dark.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="brand" href="../index.html">
+      <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9.1" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="11" r="3.1" fill="currentColor"/></svg>
+      <span>OpenBrain</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="../news.html">News</a>
+      <a href="../help.html">Help</a>
+      <a href="../info.html">Info</a>
+      <a href="../roadmap.html">Roadmap</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-sm" href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">GitHub</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="../news.html">News</a>
+    <a href="../help.html">Help</a>
+    <a href="../info.html">Info</a>
+    <a href="../roadmap.html">Roadmap</a>
+    <a href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</header>
+
+<main>
+
+<article class="article">
+
+  <header class="article-head reveal">
+    <p class="eyebrow">News · Article</p>
+    <h1>Introducing Agent-0</h1>
+    <p class="article-dek">A CLI agent that runs on your machine. Here's what it does, how it's built, and where it falls short.</p>
+    <div class="article-meta">
+      <span>October 2026</span>
+      <span class="dot">·</span>
+      <span>OpenBrain-LLC</span>
+      <span class="dot">·</span>
+      <span>12 min read</span>
+    </div>
+  </header>
+
+  <nav class="toc reveal" style="--d:80ms" aria-label="Contents">
+    <h4>Contents</h4>
+    <ol>
+      <li><a href="#what">What Agent-0 is</a></li>
+      <li><a href="#why">Why local-first</a></li>
+      <li><a href="#install">Installing it</a></li>
+      <li><a href="#backends">The two backends</a></li>
+      <li><a href="#tools">The five tools</a></li>
+      <li><a href="#autonomy">Autonomy levels</a></li>
+      <li><a href="#memory">Memory and sessions</a></li>
+      <li><a href="#goals">Goals</a></li>
+      <li><a href="#design">Design decisions</a></li>
+      <li><a href="#limits">Known limitations</a></li>
+      <li><a href="#next">What's next</a></li>
+    </ol>
+  </nav>
+
+  <div class="article-body reveal" style="--d:140ms">
+
+    <p>
+      Agent-0 is a command-line AI agent. You start it in a terminal, type at it, and it
+      responds. It has five tools it can call: run a shell command, search the web, fetch
+      a URL, and two ways to write to a memory file. It keeps notes between sessions, and
+      it can work on a goal in the background while you do something else.
+    </p>
+
+    <p>
+      It runs on your own hardware by default.
+    </p>
+
+    <h2 id="what">What Agent-0 is</h2>
+
+    <p>
+      The name and premise come from the Agent-0 in <em>AI-2027</em>. That version is
+      fictional. This is the version you can install. We kept the name because the
+      framing — a small, inspectable agent that runs locally — is the part we wanted to
+      build.
+    </p>
+
+    <p>
+      It's a single Python file. You start it, it loads a model, and you get a prompt.
+      You type a request, it decides whether to answer directly or call a tool, and it
+      shows you what it's doing. When it's finished, it prints the result and waits for
+      the next thing.
+    </p>
+
+    <h2 id="why">Why local-first</h2>
+
+    <p>
+      Most agents send everything to a hosted API. That works well for a lot of use cases.
+      It's a problem when you want the agent to read your files, run commands on your
+      machine, or remember things across sessions.
+    </p>
+
+    <p>
+      Agent-0 defaults to Ollama, which runs models locally. Your prompts, your files,
+      and your notes stay on your machine. If you want to use Groq instead, you can, and
+      the agent will tell you when it's leaving your machine.
+    </p>
+
+    <p>
+      The tradeoff is speed. A 1.5B model on a laptop is slower and less capable than a
+      frontier model running on a data center GPU. We think local is the right default for
+      this kind of tool, and we make it easy to switch when you want to.
+    </p>
+
+    <h2 id="install">Installing it</h2>
+
+    <p>
+      You need Python 3.10 or later. Clone the repository and run the app script:
+    </p>
+
+    <pre><code>git clone https://github.com/OpenBrain-LLC/Agent-0
+cd Agent-0
+./app.sh</code></pre>
+
+    <p>
+      The script refuses to start if stdin isn't a TTY. That's deliberate. The agent asks
+      for input, and piping it from a script doesn't match how it's meant to be used.
+    </p>
+
+    <p>
+      On first launch, defaults are written into <code>db/local/</code>.
+    </p>
+
+    <h2 id="backends">The two backends</h2>
+
+    <h3>Ollama</h3>
+
+    <p>
+      Ollama is the default. It runs models locally and doesn't need an API key. The
+      default model is <code>deepseek-r1:1.5b</code>.
+    </p>
+
+    <p>
+      That model is tiny, and it will fumble tool calls. Switch to something larger as
+      soon as you can. Use the <code>/model</code> command in the REPL, or edit the config
+      file directly. If <code>ollama list</code> shows a model, <code>/model</code> will
+      accept it.
+    </p>
+
+    <h3>Groq</h3>
+
+    <p>
+      Groq runs models on their hardware. It's much faster than local inference on a
+      laptop. It needs an API key.
+    </p>
+
+    <p>
+      From the REPL:
+    </p>
+
+    <pre><code>/api gsk_your_key_here</code></pre>
+
+    <p>
+      That saves the key with file mode 600 and switches you to the Groq backend in one
+      step. You can also set <code>AGENT0_GROQ_API_KEY</code> in your environment, which
+      takes precedence over the stored key.
+    </p>
+
+    <h2 id="tools">The five tools</h2>
+
+    <p>
+      Agent-0 has five tools. The list isn't extensible at runtime, and that's intentional.
+      Fewer tools means less surface area to reason about on every turn.
+    </p>
+
+    <h3>shell</h3>
+
+    <p>
+      Runs a command through <code>/bin/sh</code> with a 60-second timeout.
+    </p>
+
+    <p>
+      This is the only tool that can do real damage, so it always asks for confirmation.
+      Every single time. No autonomy level changes this.
+    </p>
+
+    <p>
+      There are guardrails against patterns like <code>rm -rf /</code>, fork bombs,
+      <code>dd of=/dev/...</code>, <code>mkfs</code>, force-pushing to main, and
+      <code>curl | bash</code>. They're regex-based. They will catch obvious mistakes and
+      miss creative ones.
+    </p>
+
+    <h3>web_search</h3>
+
+    <p>
+      DuckDuckGo search. Returns titles, URLs, and snippets.
+    </p>
+
+    <h3>fetch_url</h3>
+
+    <p>
+      A plain GET request with a roughly 500 KB cap. HTTP and HTTPS only. It doesn't
+      execute JavaScript, so pages that render client-side will come back mostly empty.
+    </p>
+
+    <h3>memory_append</h3>
+
+    <p>
+      Adds a bullet to a named section in <code>memory.md</code>. Creates the section if
+      it doesn't exist.
+    </p>
+
+    <h3>memory_write</h3>
+
+    <p>
+      Replaces the entire memory file. You almost never want this. It exists because
+      sometimes you do.
+    </p>
+
+    <h2 id="autonomy">Autonomy levels</h2>
+
+    <p>
+      There are four levels, set with <code>/auto</code>:
+    </p>
+
+    <ul>
+      <li><code>manual</code> — asks for everything</li>
+      <li><code>smart</code> — asks for everything</li>
+      <li><code>auto</code> — auto-approves the web and memory tools; shell still asks</li>
+      <li><code>yolo</code> — same as auto in practice; shows a warning</li>
+    </ul>
+
+    <p>
+      We intended these to be three distinct tiers: safe, medium, and dangerous. What
+      actually shipped is different. The <code>_autonomy_ok</code> function only checks
+      one flag, and <code>manual</code> and <code>smart</code> behave identically.
+      <code>yolo</code> doesn't unlock anything that <code>auto</code> doesn't already
+      have.
+    </p>
+
+    <p>
+      We know. It's on the roadmap.
+    </p>
+
+    <h2 id="memory">Memory and sessions</h2>
+
+    <p>
+      Notes live in <code>memory.md</code>. The agent can append to sections or rewrite
+      the whole file.
+    </p>
+
+    <p>
+      Sessions are saved as JSON. Right now there's no way to list or resume them from the
+      CLI. They're on disk, but you'd have to find them yourself. That's a gap we want to
+      close.
+    </p>
+
+    <h2 id="goals">Goals</h2>
+
+    <p>
+      You can hand the agent a goal with <code>/goal</code> and let it work in the
+      background. Separate budgets apply for steps, tool calls, and wall time, so it can't
+      run forever.
+    </p>
+
+    <p>
+      Between turns, a critic call decides whether the goal is <code>DONE</code>, should
+      <code>CONTINUE</code>, or is <code>STUCK</code>. This is a simple mechanism and it
+      sometimes gets the call wrong.
+    </p>
+
+    <h2 id="design">Design decisions</h2>
+
+    <p>
+      A few things we chose on purpose.
+    </p>
+
+    <p>
+      <strong>One file.</strong> Agent-0 is a single Python script. You can read the whole
+      thing in an afternoon. This makes it easy to audit and easy to fork. It also means
+      it doesn't scale to a large feature set, which we accept.
+    </p>
+
+    <p>
+      <strong>No daemon.</strong> There's nothing running in the background when you're
+      not using it. When you close the terminal, it's gone.
+    </p>
+
+    <p>
+      <strong>Five tools.</strong> Adding a sixth tool means the model has more to reason
+      about on every turn. We'd rather make five tools work well.
+    </p>
+
+    <p>
+      <strong>Shell asks.</strong> A shell command can delete your files. The agent should
+      never run one without you knowing.
+    </p>
+
+    <h2 id="limits">Known limitations</h2>
+
+    <p>
+      The default model is bad at tool calls. You should change it.
+    </p>
+
+    <p>
+      The autonomy levels don't match their names. <code>manual</code> and
+      <code>smart</code> are the same, and <code>yolo</code> is a warning label rather
+      than a mode.
+    </p>
+
+    <p>
+      There's no session browser. If you want to resume an old session, you'll need to
+      find the JSON yourself.
+    </p>
+
+    <p>
+      The guardrails are regexes. They'll catch common dangerous patterns and miss
+      anything unusual.
+    </p>
+
+    <h2 id="next">What's next</h2>
+
+    <p>
+      The <a href="../roadmap.html">roadmap</a> lists current priorities. It's short, and
+      we'd rather keep it that way than promise more than we can build.
+    </p>
+
+    <hr>
+
+    <p>
+      The code is at
+      <a href="https://github.com/OpenBrain-LLC/Agent-0" target="_blank" rel="noopener">github.com/OpenBrain-LLC/Agent-0</a>.
+      Issues and pull requests are welcome.
+    </p>
+
+  </div>
+
+</article>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../index.html">
+          <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9.1" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="11" r="3.1" fill="currentColor"/></svg>
+          <span>OpenBrain</span>
+        </a>
+        <p>An AI company building Agent-0. Based on AI-2027's OpenBrain.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="../news.html">News</a></li>
+          <li><a href="../help.html">Help</a></li>
+          <li><a href="../info.html">Info</a></li>
+          <li><a href="../roadmap.html">Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Articles</h4>
+        <ul><li><a href="introducing-agent-0.html">Introducing Agent-0</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>GitHub</h4>
+        <ul>
+          <li><a href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">Org</a></li>
+          <li><a href="https://github.com/OpenBrain-LLC/Agent-0" target="_blank" rel="noopener">Agent-0 repo</a></li>
+          <li><a href="https://github.com/OpenBrain-LLC/Agent-0/issues" target="_blank" rel="noopener">Issues</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 OpenBrain-LLC.</span>
+      <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+
+</body>
+</html>

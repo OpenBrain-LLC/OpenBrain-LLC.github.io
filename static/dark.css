@@ -1,0 +1,55 @@
+/* OpenBrain-LLC — dark theme */
+
+:root{
+  --bg:#131311;
+  --surface:#1a1a18;
+  --surface-2:#1f1f1c;
+
+  --ink:#f0eee9;
+  --ink-2:#c4c1ba;
+  --muted:#8a8780;
+
+  --line:#2a2a27;
+  --line-strong:#3d3d38;
+
+  --accent:#5fb894;
+  --accent-soft:#24483a;
+  --accent-softer:#1a2f27;
+
+  --warn:#d4a862;
+  --warn-border:#4a3d24;
+  --warn-bg:#2a2318;
+
+  --selection-bg:#2a4a3c;
+  --code-bg:#1f1f1c;
+
+  --btn-bg:#f0eee9;
+  --btn-ink:#131311;
+  --btn-border:#f0eee9;
+  --btn-hover-bg:#ffffff;
+  --btn-hover-border:#ffffff;
+  --btn-ghost-hover-bg:#1f1f1c;
+
+  --header-bg:rgba(19,19,17,.8);
+  --header-bg-scrolled:rgba(19,19,17,.95);
+
+  --term-prompt:#5a5a55;
+  --term-dim:#7a7a75;
+
+  --shadow-window-1:rgba(0,0,0,.35);
+  --shadow-window-2:rgba(0,0,0,.55);
+  --shadow-card-hover:rgba(0,0,0,.5);
+
+  --cta-bg:#1f1f1c;
+  --cta-ink:#f0eee9;
+  --cta-ink-2:#a8a59e;
+
+  --btn-invert-bg:#f0eee9;
+  --btn-invert-border:#f0eee9;
+  --btn-invert-ink:#131311;
+  --btn-invert-hover-bg:#ffffff;
+  --btn-invert-ghost-border:#3d3d38;
+  --btn-invert-ghost-ink:#f0eee9;
+  --btn-invert-ghost-hover-bg:rgba(255,255,255,.05);
+  --btn-invert-ghost-hover-border:#5a5a55;
+}

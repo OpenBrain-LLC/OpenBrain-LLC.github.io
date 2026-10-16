@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadmap — OpenBrain-LLC</title>
+<meta name="description" content="What's next for Agent-0.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="static/light.css">
+<link rel="stylesheet" href="static/dark.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html">
+      <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9.1" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="11" r="3.1" fill="currentColor"/></svg>
+      <span>OpenBrain</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="news.html">News</a>
+      <a href="help.html">Help</a>
+      <a href="info.html">Info</a>
+      <a href="roadmap.html" class="is-active">Roadmap</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-sm" href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">GitHub</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="news.html">News</a>
+    <a href="help.html">Help</a>
+    <a href="info.html">Info</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow reveal" style="--d:0ms">Roadmap</p>
+      <h1 class="reveal" style="--d:60ms">What's next.</h1>
+      <p class="lede reveal" style="--d:120ms">Priorities, not promises. These can change as we learn.</p>
+    </div>
+  </section>
+
+  <section class="section" style="border-top:0;padding-top:0">
+    <div class="wrap">
+      <ul class="roadmap" style="margin-top:0">
+
+        <li class="reveal" style="--d:0ms">
+          <span class="tag now">Now</span>
+          <div class="rm-body">
+            <strong>Fix the autonomy tiers</strong>
+            <p><code>manual</code> and <code>smart</code> currently behave the same, and <code>yolo</code> doesn't unlock anything new. The intended safe, medium, and dangerous split isn't wired up.</p>
+          </div>
+        </li>
+
+        <li class="reveal" style="--d:80ms">
+          <span class="tag now">Now</span>
+          <div class="rm-body">
+            <strong>Better default model</strong>
+            <p><code>deepseek-r1:1.5b</code> fumbles tool calls. We're looking at a default that can use the five tools reliably.</p>
+          </div>
+        </li>
+
+        <li class="reveal" style="--d:160ms">
+          <span class="tag next">Next</span>
+          <div class="rm-body">
+            <strong>Session browsing</strong>
+            <p>Sessions are saved as JSON, but there's no way to list or resume them from the CLI. That's a gap.</p>
+          </div>
+        </li>
+
+        <li class="reveal" style="--d:240ms">
+          <span class="tag next">Next</span>
+          <div class="rm-body">
+            <strong>Guardrail tests</strong>
+            <p>The shell guardrails are regex-based. We want a test suite that covers the patterns they claim to catch.</p>
+          </div>
+        </li>
+
+        <li class="reveal" style="--d:320ms">
+          <span class="tag next">Next</span>
+          <div class="rm-body">
+            <strong>Documentation pass</strong>
+            <p>The README covers setup and tools. It could do a better job of explaining the goal loop and the critic call.</p>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap reveal">
+      <h2>Disagree with a priority?</h2>
+      <p>Open an issue and make the case. We read all of them.</p>
+      <div class="cta-actions">
+        <a class="btn btn-invert" href="https://github.com/OpenBrain-LLC/Agent-0/issues" target="_blank" rel="noopener">Open an issue</a>
+        <a class="btn btn-invert-ghost" href="news/introducing-agent-0.html">Read the introduction</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="index.html">
+          <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9.1" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="11" r="3.1" fill="currentColor"/></svg>
+          <span>OpenBrain</span>
+        </a>
+        <p>An AI company building Agent-0. Based on AI-2027's OpenBrain.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="news.html">News</a></li>
+          <li><a href="help.html">Help</a></li>
+          <li><a href="info.html">Info</a></li>
+          <li><a href="roadmap.html">Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Articles</h4>
+        <ul><li><a href="news/introducing-agent-0.html">Introducing Agent-0</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>GitHub</h4>
+        <ul>
+          <li><a href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">Org</a></li>
+          <li><a href="https://github.com/OpenBrain-LLC/Agent-0" target="_blank" rel="noopener">Agent-0 repo</a></li>
+          <li><a href="https://github.com/OpenBrain-LLC/Agent-0/issues" target="_blank" rel="noopener">Issues</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 OpenBrain-LLC.</span>
+      <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

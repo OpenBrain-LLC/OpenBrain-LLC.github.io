@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Help — OpenBrain-LLC</title>
+<meta name="description" content="Setup, backends, tools, and how Agent-0 handles autonomy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="static/light.css">
+<link rel="stylesheet" href="static/dark.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html">
+      <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9.1" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="11" r="3.1" fill="currentColor"/></svg>
+      <span>OpenBrain</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="news.html">News</a>
+      <a href="help.html" class="is-active">Help</a>
+      <a href="info.html">Info</a>
+      <a href="roadmap.html">Roadmap</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-sm" href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">GitHub</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="news.html">News</a>
+    <a href="help.html">Help</a>
+    <a href="info.html">Info</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow reveal" style="--d:0ms">Help</p>
+      <h1 class="reveal" style="--d:60ms">Setup and common questions.</h1>
+      <p class="lede reveal" style="--d:120ms">Install steps, backend choices, and what the agent will do on its own.</p>
+    </div>
+  </section>
+
+  <section class="section" style="border-top:0;padding-top:0">
+    <div class="wrap">
+      <div class="faq reveal" style="--d:160ms;margin-top:0">
+
+        <details>
+          <summary>
+            How do I install Agent-0?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>Clone the repository and run <code>app.sh</code>. You'll need Python 3.10 or later.</p>
+            <p>The script refuses to run if stdin isn't a TTY, because half the interaction is <code>input()</code> prompts.</p>
+            <p>On first launch, defaults are written into <code>db/local/</code>. Ollama is the default backend and <code>deepseek-r1:1.5b</code> is the default model.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            Which model should I use?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>The default model, <code>deepseek-r1:1.5b</code>, is tiny and will fumble tool calls. Swap it as soon as you can.</p>
+            <p>Use <code>/model</code> in the REPL, or edit the config directly. If <code>ollama list</code> shows a model, <code>/model</code> will take it.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            How does the Groq backend work?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>From the REPL, run <code>/api gsk_...</code> with your key. That saves the key with mode 600 and switches you to Groq in one step.</p>
+            <p>You can also set <code>AGENT0_GROQ_API_KEY</code> in your environment. That wins over the stored key.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            What tools does Agent-0 have?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>Five: <code>shell</code>, <code>web_search</code>, <code>fetch_url</code>, <code>memory_append</code>, and <code>memory_write</code>.</p>
+            <p>The list isn't extensible at runtime and isn't meant to be. There's no dedicated file-reading tool. If you want the agent to look at a file, it uses <code>shell</code> with <code>cat</code>, <code>head</code>, or <code>grep</code>.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            Will it run shell commands on its own?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>No. Shell always requires <code>[Y]es/[N]o</code>. No autonomy level changes that.</p>
+            <p>There are guardrails for <code>rm -rf /</code>, fork bombs, <code>dd of=/dev/...</code>, <code>mkfs</code>, force-pushing to main, and <code>curl | bash</code>. They're regexes, so they'll miss things.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            What are the autonomy levels?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>Four: <code>manual</code>, <code>smart</code>, <code>auto</code>, and <code>yolo</code>.</p>
+            <p>In practice, <code>manual</code> and <code>smart</code> behave identically, and <code>yolo</code> doesn't unlock anything <code>auto</code> doesn't already have. The intended tiers were safe, medium, and dangerous, but <code>_autonomy_ok</code> only checks the medium flag. That's a known gap.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            Where do notes and sessions go?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>Notes live in <code>memory.md</code>. Sessions are saved as JSON.</p>
+            <p>The agent can also chew on a goal in the background with <code>/goal</code>. Separate budgets apply for steps, tool calls, and wall time.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            Where can I report a bug?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>Open an issue on the <a href="https://github.com/OpenBrain-LLC/Agent-0/issues" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:2px">Agent-0 repository</a>.</p>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap reveal">
+      <h2>Still stuck?</h2>
+      <p>Open an issue and describe what you tried. Include your OS and Python version.</p>
+      <div class="cta-actions">
+        <a class="btn btn-invert" href="https://github.com/OpenBrain-LLC/Agent-0/issues" target="_blank" rel="noopener">Open an issue</a>
+        <a class="btn btn-invert-ghost" href="news/introducing-agent-0.html">Read the introduction</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="index.html">
+          <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9.1" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="11" r="3.1" fill="currentColor"/></svg>
+          <span>OpenBrain</span>
+        </a>
+        <p>An AI company building Agent-0. Based on AI-2027's OpenBrain.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="news.html">News</a></li>
+          <li><a href="help.html">Help</a></li>
+          <li><a href="info.html">Info</a></li>
+          <li><a href="roadmap.html">Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Articles</h4>
+        <ul><li><a href="news/introducing-agent-0.html">Introducing Agent-0</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>GitHub</h4>
+        <ul>
+          <li><a href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener">Org</a></li>
+          <li><a href="https://github.com/OpenBrain-LLC/Agent-0" target="_blank" rel="noopener">Agent-0 repo</a></li>
+          <li><a href="https://github.com/OpenBrain-LLC/Agent-0/issues" target="_blank" rel="noopener">Issues</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 OpenBrain-LLC.</span>
+      <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
