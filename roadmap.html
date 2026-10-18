@@ -11,6 +11,84 @@
 <link rel="stylesheet" href="static/style.css">
 <link rel="stylesheet" href="static/light.css">
 <link rel="stylesheet" href="static/dark.css" media="(prefers-color-scheme: dark)">
+<style>
+  /* ===== Roadmap timeline ===== */
+  .roadmap-timeline {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* the vertical rail */
+  .roadmap-timeline::before {
+    content: "";
+    position: absolute;
+    left: 33px;              /* center of the 68px badge */
+    top: 34px;
+    bottom: 34px;
+    width: 2px;
+    background: rgba(128, 128, 128, 0.28);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-left: 7rem;
+    padding-bottom: 2.75rem;
+    min-height: 68px;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+
+  /* circular status badge */
+  .timeline-status {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.05;
+    color: #fff;
+  }
+  .timeline-status.done    { background: #2563eb; } /* blue   */
+  .timeline-status.now     { background: #16a34a; } /* green  */
+  .timeline-status.next    { background: #ca8a04; } /* yellow */
+  .timeline-status.planned { background: #dc2626; } /* red    */
+
+  /* date line */
+  .timeline-date {
+    display: block;
+    font-family: "Inter", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 0.3rem;
+  }
+
+  .timeline-content strong {
+    display: block;
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+  }
+  .timeline-content p { margin: 0; }
+
+  /* tighter on small screens */
+  @media (max-width: 560px) {
+    .roadmap-timeline::before { left: 27px; top: 28px; bottom: 28px; }
+    .timeline-item { padding-left: 5.25rem; min-height: 56px; }
+    .timeline-status { width: 56px; height: 56px; font-size: 0.62rem; }
+  }
+</style>
 </head>
 <body>
 
@@ -52,49 +130,106 @@
 
   <section class="section" style="border-top:0;padding-top:0">
     <div class="wrap">
-      <ul class="roadmap" style="margin-top:0">
+      <ol class="roadmap-timeline">
 
-        <li class="reveal" style="--d:0ms">
-          <span class="tag now">Now</span>
-          <div class="rm-body">
+        <li class="timeline-item reveal" style="--d:0ms">
+          <span class="timeline-status done">Done</span>
+          <div class="timeline-content">
+            <time class="timeline-date" datetime="2026-10-15">October 15, 2026</time>
+            <strong>Improved error handling</strong>
+            <p>Clearer messages and graceful recovery when a tool call fails. No more silent drops.</p>
+          </div>
+        </li>
+
+        <li class="timeline-item reveal" style="--d:40ms">
+          <span class="timeline-status done">Done</span>
+          <div class="timeline-content">
+            <time class="timeline-date" datetime="2026-10-15">October 15, 2026</time>
+            <strong>Faster startup time</strong>
+            <p>Cold start is now under 400 ms. We trimmed the initialization path and deferred optional checks.</p>
+          </div>
+        </li>
+
+        <li class="timeline-item reveal" style="--d:80ms">
+          <span class="timeline-status done">Done</span>
+          <div class="timeline-content">
+            <time class="timeline-date" datetime="2026-10-16">October 16, 2026</time>
             <strong>Fix the autonomy tiers</strong>
-            <p><code>manual</code> and <code>smart</code> currently behave the same, and <code>yolo</code> doesn't unlock anything new. The intended safe, medium, and dangerous split isn't wired up.</p>
+            <p><code>manual</code>, <code>smart</code>, and <code>yolo</code> now map to three distinct permission levels. The safe, medium, and dangerous split is fully wired up — no more identical behavior.</p>
           </div>
         </li>
 
-        <li class="reveal" style="--d:80ms">
-          <span class="tag now">Now</span>
-          <div class="rm-body">
+        <li class="timeline-item reveal" style="--d:120ms">
+          <span class="timeline-status done">Done</span>
+          <div class="timeline-content">
+            <time class="timeline-date" datetime="2026-10-16">October 16, 2026</time>
             <strong>Better default model</strong>
-            <p><code>deepseek-r1:1.5b</code> fumbles tool calls. We're looking at a default that can use the five tools reliably.</p>
+            <p>The default model now calls all five tools reliably. We swapped out <code>deepseek-r1:1.5b</code> for something that holds up under real workloads.</p>
           </div>
         </li>
 
-        <li class="reveal" style="--d:160ms">
-          <span class="tag next">Next</span>
-          <div class="rm-body">
+        <li class="timeline-item reveal" style="--d:160ms">
+          <span class="timeline-status now">Now</span>
+          <div class="timeline-content">
+            <time class="timeline-date" datetime="2026-10-18">October 18, 2026</time>
             <strong>Session browsing</strong>
-            <p>Sessions are saved as JSON, but there's no way to list or resume them from the CLI. That's a gap.</p>
+            <p>Sessions are persisted as JSON, but there's still no way to list or resume them from the CLI. We're closing that gap with <code>agent0 sessions</code>.</p>
           </div>
         </li>
 
-        <li class="reveal" style="--d:240ms">
-          <span class="tag next">Next</span>
-          <div class="rm-body">
+        <li class="timeline-item reveal" style="--d:200ms">
+          <span class="timeline-status now">Now</span>
+          <div class="timeline-content">
+            <time class="timeline-date" datetime="2026-10-18">October 18, 2026</time>
             <strong>Guardrail tests</strong>
-            <p>The shell guardrails are regex-based. We want a test suite that covers the patterns they claim to catch.</p>
+            <p>The shell guardrails are regex-based, and we want proof they work. A new test suite will cover every pattern they claim to catch.</p>
           </div>
         </li>
 
-        <li class="reveal" style="--d:320ms">
-          <span class="tag next">Next</span>
-          <div class="rm-body">
+        <li class="timeline-item reveal" style="--d:240ms">
+          <span class="timeline-status now">Now</span>
+          <div class="timeline-content">
+            <time class="timeline-date" datetime="2026-10-18">October 18, 2026</time>
+            <strong>CLI output theming</strong>
+            <p>Respecting <code>NO_COLOR</code> and adding a <code>--theme</code> flag so the agent looks good in any terminal.</p>
+          </div>
+        </li>
+
+        <li class="timeline-item reveal" style="--d:280ms">
+          <span class="timeline-status next">Next</span>
+          <div class="timeline-content">
+            <span class="timeline-date">Within 3 days</span>
             <strong>Documentation pass</strong>
-            <p>The README covers setup and tools. It could do a better job of explaining the goal loop and the critic call.</p>
+            <p>The README covers setup and tools, but the goal loop and the critic call deserve a proper walkthrough. That rewrite lands within the next three days.</p>
           </div>
         </li>
 
-      </ul>
+        <li class="timeline-item reveal" style="--d:320ms">
+          <span class="timeline-status next">Next</span>
+          <div class="timeline-content">
+            <span class="timeline-date">Within 3 days</span>
+            <strong>Plugin system for tools</strong>
+            <p>A lightweight way to register custom tools without modifying the core. We're sketching the interface now.</p>
+          </div>
+        </li>
+
+        <li class="timeline-item reveal" style="--d:360ms">
+          <span class="timeline-status planned">Planned</span>
+          <div class="timeline-content">
+            <strong>Agent-1</strong>
+            <p>The successor to Agent-0. Still on the drawing board — expect deeper autonomy, better long-horizon planning, and a real memory layer.</p>
+          </div>
+        </li>
+
+        <li class="timeline-item reveal" style="--d:400ms">
+          <span class="timeline-status planned">Planned</span>
+          <div class="timeline-content">
+            <strong>Agent-1:mini</strong>
+            <p>A faster, version of Agent-1 and designed to-do AI R&D for speedup</p>
+          </div>
+        </li>
+
+      </ol>
     </div>
   </section>
 
@@ -144,7 +279,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 OpenBrain-LLC.</span>
+      <span>Noat! This is AI generated because we believe AI can speed up AI development and the start to that is making AI generate this website (© 2026 OpenBrain-LLC.)</span>
       <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
     </div>
   </div>

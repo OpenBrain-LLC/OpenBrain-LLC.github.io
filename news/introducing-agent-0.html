@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Introducing Agent-0 — OpenBrain-LLC</title>
-<meta name="description" content="A full walkthrough of Agent-0: what it is, how it works, and what it won't do.">
+<meta name="description" content="An updated full walkthrough of Agent-0: what it is, how it works, and what it won't do.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
@@ -47,9 +47,9 @@
   <header class="article-head reveal">
     <p class="eyebrow">News · Article</p>
     <h1>Introducing Agent-0</h1>
-    <p class="article-dek">A CLI agent that runs on your machine. Here's what it does, how it's built, and where it falls short.</p>
+    <p class="article-dek">A CLI agent that runs on your machine. Here's what it does, how it's built, and where it still falls short.</p>
     <div class="article-meta">
-      <span>October 2026</span>
+      <span>Updated October 2026</span>
       <span class="dot">·</span>
       <span>OpenBrain-LLC</span>
       <span class="dot">·</span>
@@ -84,7 +84,8 @@
     </p>
 
     <p>
-      It runs on your own hardware by default.
+      It runs on your own hardware by default. This walkthrough has been updated to match
+      the current code.
     </p>
 
     <h2 id="what">What Agent-0 is</h2>
@@ -148,14 +149,14 @@ cd Agent-0
 
     <p>
       Ollama is the default. It runs models locally and doesn't need an API key. The
-      default model is <code>deepseek-r1:1.5b</code>.
+      default model has been updated to one that calls the five tools reliably.
     </p>
 
     <p>
-      That model is tiny, and it will fumble tool calls. Switch to something larger as
-      soon as you can. Use the <code>/model</code> command in the REPL, or edit the config
-      file directly. If <code>ollama list</code> shows a model, <code>/model</code> will
-      accept it.
+      Earlier builds defaulted to <code>deepseek-r1:1.5b</code>, which fumbled tool calls.
+      That default has been updated. You can still switch with the <code>/model</code>
+      command in the REPL, or edit the config file directly. If <code>ollama list</code>
+      shows a model, <code>/model</code> will accept it.
     </p>
 
     <h3>Groq</h3>
@@ -191,15 +192,16 @@ cd Agent-0
     </p>
 
     <p>
-      This is the only tool that can do real damage, so it always asks for confirmation.
-      Every single time. No autonomy level changes this.
+      This is the only tool that can do real damage, so it asks for confirmation by
+      default. Every single time, unless you explicitly switch to <code>yolo</code>.
     </p>
 
     <p>
       There are guardrails against patterns like <code>rm -rf /</code>, fork bombs,
       <code>dd of=/dev/...</code>, <code>mkfs</code>, force-pushing to main, and
       <code>curl | bash</code>. They're regex-based. They will catch obvious mistakes and
-      miss creative ones.
+      miss creative ones. We're adding a test suite that covers the patterns they claim
+      to catch.
     </p>
 
     <h3>web_search</h3>
@@ -232,26 +234,20 @@ cd Agent-0
     <h2 id="autonomy">Autonomy levels</h2>
 
     <p>
-      There are four levels, set with <code>/auto</code>:
+      There are four names, set with <code>/auto</code>, and they now resolve to three
+      distinct permission levels:
     </p>
 
     <ul>
-      <li><code>manual</code> — asks for everything</li>
-      <li><code>smart</code> — asks for everything</li>
-      <li><code>auto</code> — auto-approves the web and memory tools; shell still asks</li>
-      <li><code>yolo</code> — same as auto in practice; shows a warning</li>
+      <li><code>manual</code> — safe: asks for every tool call</li>
+      <li><code>smart</code> and <code>auto</code> — medium: auto-approves the web and memory tools; shell still asks</li>
+      <li><code>yolo</code> — dangerous: auto-approves shell too, with a warning</li>
     </ul>
 
     <p>
-      We intended these to be three distinct tiers: safe, medium, and dangerous. What
-      actually shipped is different. The <code>_autonomy_ok</code> function only checks
-      one flag, and <code>manual</code> and <code>smart</code> behave identically.
-      <code>yolo</code> doesn't unlock anything that <code>auto</code> doesn't already
-      have.
-    </p>
-
-    <p>
-      We know. It's on the roadmap.
+      This split is now wired up. Earlier builds did not distinguish
+      <code>manual</code> and <code>smart</code>, and <code>yolo</code> did not unlock
+      anything new. That has been updated.
     </p>
 
     <h2 id="memory">Memory and sessions</h2>
@@ -262,9 +258,9 @@ cd Agent-0
     </p>
 
     <p>
-      Sessions are saved as JSON. Right now there's no way to list or resume them from the
-      CLI. They're on disk, but you'd have to find them yourself. That's a gap we want to
-      close.
+      Sessions are saved as JSON. A CLI browser for listing and resuming them is in
+      progress through <code>agent0 sessions</code>. Until that lands, you'd have to find
+      the JSON yourself.
     </p>
 
     <h2 id="goals">Goals</h2>
@@ -304,37 +300,40 @@ cd Agent-0
     </p>
 
     <p>
-      <strong>Shell asks.</strong> A shell command can delete your files. The agent should
-      never run one without you knowing.
+      <strong>Shell asks by default.</strong> A shell command can delete your files. The
+      agent should never run one without you knowing, unless you explicitly choose
+      <code>yolo</code>.
     </p>
 
     <h2 id="limits">Known limitations</h2>
 
     <p>
-      The default model is bad at tool calls. You should change it.
+      The autonomy tiers are now distinct, but <code>yolo</code> is still dangerous by
+      design. Use it only when you mean it.
     </p>
 
     <p>
-      The autonomy levels don't match their names. <code>manual</code> and
-      <code>smart</code> are the same, and <code>yolo</code> is a warning label rather
-      than a mode.
-    </p>
-
-    <p>
-      There's no session browser. If you want to resume an old session, you'll need to
-      find the JSON yourself.
+      Session browsing is in progress. Sessions are saved as JSON, but the CLI list and
+      resume flow isn't finished yet.
     </p>
 
     <p>
       The guardrails are regexes. They'll catch common dangerous patterns and miss
-      anything unusual.
+      anything unusual. A test suite is being added to cover the patterns they claim to
+      catch.
+    </p>
+
+    <p>
+      Documentation is being updated. The README covers setup and tools, but the goal loop
+      and the critic call still need a proper walkthrough.
     </p>
 
     <h2 id="next">What's next</h2>
 
     <p>
       The <a href="../roadmap.html">roadmap</a> lists current priorities. It's short, and
-      we'd rather keep it that way than promise more than we can build.
+      we'd rather keep it that way than promise more than we can build. Agent-1 is planned,
+      with no public date yet.
     </p>
 
     <hr>

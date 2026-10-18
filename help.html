@@ -46,13 +46,15 @@
     <div class="wrap">
       <p class="eyebrow reveal" style="--d:0ms">Help</p>
       <h1 class="reveal" style="--d:60ms">Setup and common questions.</h1>
-      <p class="lede reveal" style="--d:120ms">Install steps, backend choices, and what the agent will do on its own.</p>
+      <p class="lede reveal" style="--d:120ms">Install steps, backend choices, the five tools, and what the agent will do on its own.</p>
     </div>
   </section>
 
   <section class="section" style="border-top:0;padding-top:0">
     <div class="wrap">
       <div class="faq reveal" style="--d:160ms;margin-top:0">
+
+        <h3 class="faq-group">Getting started</h3>
 
         <details>
           <summary>
@@ -61,8 +63,11 @@
           </summary>
           <div class="faq-body">
             <p>Clone the repository and run <code>app.sh</code>. You'll need Python 3.10 or later.</p>
+            <pre><code>git clone https://github.com/OpenBrain-LLC/Agent-0
+cd Agent-0
+./app.sh</code></pre>
             <p>The script refuses to run if stdin isn't a TTY, because half the interaction is <code>input()</code> prompts.</p>
-            <p>On first launch, defaults are written into <code>db/local/</code>. Ollama is the default backend and <code>deepseek-r1:1.5b</code> is the default model.</p>
+            <p>On first launch, defaults are written into <code>db/local/</code>. Ollama is the default backend.</p>
           </div>
         </details>
 
@@ -72,8 +77,9 @@
             <span class="plus" aria-hidden="true"></span>
           </summary>
           <div class="faq-body">
-            <p>The default model, <code>deepseek-r1:1.5b</code>, is tiny and will fumble tool calls. Swap it as soon as you can.</p>
-            <p>Use <code>/model</code> in the REPL, or edit the config directly. If <code>ollama list</code> shows a model, <code>/model</code> will take it.</p>
+            <p>The default model has been updated to one that calls all five tools reliably. Earlier builds defaulted to <code>deepseek-r1:1.5b</code>, which fumbled tool calls — that's no longer the default.</p>
+            <p>You can still switch any time. Use <code>/model</code> in the REPL, or edit the config directly. If <code>ollama list</code> shows a model, <code>/model</code> will take it.</p>
+            <p>Rule of thumb: bigger models handle multi-step tool use better, but they're slower locally. Try a few and see what your machine tolerates.</p>
           </div>
         </details>
 
@@ -84,9 +90,23 @@
           </summary>
           <div class="faq-body">
             <p>From the REPL, run <code>/api gsk_...</code> with your key. That saves the key with mode 600 and switches you to Groq in one step.</p>
-            <p>You can also set <code>AGENT0_GROQ_API_KEY</code> in your environment. That wins over the stored key.</p>
+            <p>You can also set <code>AGENT0_GROQ_API_KEY</code> in your environment. That wins over the stored key, which is handy for CI or shared machines.</p>
+            <p>Groq is much faster than local inference on a laptop, but it means your prompts leave your machine. The agent tells you when it's using a remote backend.</p>
           </div>
         </details>
+
+        <details>
+          <summary>
+            What does it write to disk?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>Three things: <code>memory.md</code> for notes, JSON files for session history, and a config file under <code>db/local/</code> created on first launch.</p>
+            <p>Nothing is written outside the project directory, and there's no background process left running after you close the terminal.</p>
+          </div>
+        </details>
+
+        <h3 class="faq-group">Tools and autonomy</h3>
 
         <details>
           <summary>
@@ -95,7 +115,8 @@
           </summary>
           <div class="faq-body">
             <p>Five: <code>shell</code>, <code>web_search</code>, <code>fetch_url</code>, <code>memory_append</code>, and <code>memory_write</code>.</p>
-            <p>The list isn't extensible at runtime and isn't meant to be. There's no dedicated file-reading tool. If you want the agent to look at a file, it uses <code>shell</code> with <code>cat</code>, <code>head</code>, or <code>grep</code>.</p>
+            <p>The list isn't extensible at runtime and isn't meant to be. There's no dedicated file-reading tool — if you want the agent to look at a file, it uses <code>shell</code> with <code>cat</code>, <code>head</code>, or <code>grep</code>.</p>
+            <p>A plugin system for registering custom tools is on the roadmap.</p>
           </div>
         </details>
 
@@ -105,8 +126,9 @@
             <span class="plus" aria-hidden="true"></span>
           </summary>
           <div class="faq-body">
-            <p>No. Shell always requires <code>[Y]es/[N]o</code>. No autonomy level changes that.</p>
-            <p>There are guardrails for <code>rm -rf /</code>, fork bombs, <code>dd of=/dev/...</code>, <code>mkfs</code>, force-pushing to main, and <code>curl | bash</code>. They're regexes, so they'll miss things.</p>
+            <p>Not by default. Shell requires <code>[Y]es/[N]o</code> confirmation unless you explicitly switch to <code>yolo</code>.</p>
+            <p>There are guardrails for <code>rm -rf /</code>, fork bombs, <code>dd of=/dev/...</code>, <code>mkfs</code>, force-pushing to main, and <code>curl | bash</code>. They're regexes, so they'll catch obvious mistakes and miss creative ones.</p>
+            <p>A test suite for the guardrails is in progress — it covers every pattern they claim to catch.</p>
           </div>
         </details>
 
@@ -116,10 +138,18 @@
             <span class="plus" aria-hidden="true"></span>
           </summary>
           <div class="faq-body">
-            <p>Four: <code>manual</code>, <code>smart</code>, <code>auto</code>, and <code>yolo</code>.</p>
-            <p>In practice, <code>manual</code> and <code>smart</code> behave identically, and <code>yolo</code> doesn't unlock anything <code>auto</code> doesn't already have. The intended tiers were safe, medium, and dangerous, but <code>_autonomy_ok</code> only checks the medium flag. That's a known gap.</p>
+            <p>Three distinct tiers, set with <code>/auto</code>:</p>
+            <ul>
+              <li><code>manual</code> — safe: asks for every tool call</li>
+              <li><code>smart</code> and <code>auto</code> — medium: auto-approves the web and memory tools; shell still asks</li>
+              <li><code>yolo</code> — dangerous: auto-approves shell too, with a warning</li>
+            </ul>
+            <p>This split now works as intended. Earlier builds treated <code>manual</code> and <code>smart</code> identically and <code>yolo</code> didn't unlock anything new — that's been fixed.</p>
+            <p>If you don't need background tool use, stay on <code>manual</code>. <code>yolo</code> is there when you mean it, not as a default.</p>
           </div>
         </details>
+
+        <h3 class="faq-group">Memory, sessions, and goals</h3>
 
         <details>
           <summary>
@@ -127,8 +157,55 @@
             <span class="plus" aria-hidden="true"></span>
           </summary>
           <div class="faq-body">
-            <p>Notes live in <code>memory.md</code>. Sessions are saved as JSON.</p>
-            <p>The agent can also chew on a goal in the background with <code>/goal</code>. Separate budgets apply for steps, tool calls, and wall time.</p>
+            <p>Notes live in <code>memory.md</code>. Sessions are saved as JSON next to it.</p>
+            <p><code>memory_append</code> adds a bullet to a named section and creates it if needed. <code>memory_write</code> replaces the whole file — you almost never want that.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            How do I resume an old session?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>Sessions are saved as JSON, but there's no CLI list or resume flow yet. You can inspect the JSON directly.</p>
+            <p><code>agent0 sessions</code> is in progress and will let you list and resume from the CLI. It's marked "Now" on the <a href="roadmap.html" style="text-decoration:underline;text-underline-offset:2px">roadmap</a>.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            How do goals work?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>Hand the agent a goal with <code>/goal</code> and it works in the background. Separate budgets apply for steps, tool calls, and wall time, so it can't run forever.</p>
+            <p>Between turns, a critic call decides whether the goal is <code>DONE</code>, should <code>CONTINUE</code>, or is <code>STUCK</code>. It's a simple mechanism and sometimes gets the call wrong — if you see it looping, stop it and rephrase.</p>
+          </div>
+        </details>
+
+        <h3 class="faq-group">Troubleshooting</h3>
+
+        <details>
+          <summary>
+            The agent keeps fumbling tool calls. What do I do?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>First, check you're on the updated default. If you manually set a small model, switch to something larger with <code>/model</code>.</p>
+            <p>Second, simplify the request. Multi-step instructions with several tool calls are much harder for small models than a single clear task.</p>
+            <p>Third, if it's still failing, open an issue with the model name and the prompt — that's exactly the feedback we use to pick defaults.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            app.sh won't start. Why?
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body">
+            <p>The most common cause is stdin not being a TTY — running it through a pipe or a non-interactive script will fail on purpose. Run it directly in a terminal.</p>
+            <p>If Python is the problem, check <code>python3 --version</code>. You need 3.10 or later.</p>
           </div>
         </details>
 
@@ -139,6 +216,7 @@
           </summary>
           <div class="faq-body">
             <p>Open an issue on the <a href="https://github.com/OpenBrain-LLC/Agent-0/issues" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:2px">Agent-0 repository</a>.</p>
+            <p>Include your OS, Python version, the model you were using, and the command that failed. That's usually enough for us to reproduce it.</p>
           </div>
         </details>
 

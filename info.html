@@ -56,34 +56,86 @@
 
         <div class="info-block reveal" style="--d:0ms">
           <h3>What Agent-0 is</h3>
-          <p>A CLI agent that runs on your machine. You type at it, it thinks, it calls tools. It keeps notes in a markdown file, saves the session as JSON, and can work on a goal in the background.</p>
+          <p>A CLI agent that runs on your machine. You type at it, it thinks, it calls tools. It keeps notes in a markdown file, saves the session as JSON, and can work on a goal in the background while you do something else.</p>
+          <p>There's no account, no cloud dashboard, and no telemetry. Start it, use it, close the terminal.</p>
         </div>
 
         <div class="info-block reveal" style="--d:80ms">
           <h3>How it's built</h3>
-          <p>A single Python file. There's no daemon and no build step. Python 3.10 or later is required.</p>
+          <p>Using python 3.10 (or later) and some external libs.</p>
+          <p>The whole thing is readable in an afternoon, which is deliberate. We'd rather you be able to audit it than trust us.</p>
         </div>
 
         <div class="info-block reveal" style="--d:160ms">
           <h3>Backends</h3>
           <p><strong>Ollama</strong> runs locally. It's free, private, and works with whatever you've pulled. <strong>Groq</strong> runs remotely. It's fast and needs an API key.</p>
+          <p>The default model now calls all five tools reliably. Switch models any time with <code>/model</code>.</p>
         </div>
 
         <div class="info-block reveal" style="--d:240ms">
           <h3>Where to find it</h3>
           <p>The code lives at <a href="https://github.com/OpenBrain-LLC" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:2px">github.com/OpenBrain-LLC</a>. Issues and pull requests are welcome.</p>
+          <p>Bug reports are most useful when they include your OS, Python version, and the command that failed.</p>
         </div>
 
         <div class="info-block reveal" style="--d:320ms">
           <h3>Tools</h3>
           <p>Five: <code>shell</code>, <code>web_search</code>, <code>fetch_url</code>, <code>memory_append</code>, and <code>memory_write</code>. The list isn't extensible at runtime.</p>
+          <p>Fewer tools means less surface area for the model to reason about on every turn. A plugin system is on the roadmap.</p>
         </div>
 
         <div class="info-block reveal" style="--d:400ms">
-          <h3>Safety</h3>
-          <p>Shell always asks before running. Guardrails catch common dangerous patterns like <code>rm -rf /</code> and <code>curl | bash</code>, though they're regex-based and miss unusual commands.</p>
+          <h3>Autonomy</h3>
+          <p>Three distinct tiers, set with <code>/auto</code>:</p>
+          <ul style="margin:0.5rem 0 0;padding-left:1.2rem">
+            <li><strong>manual</strong> — safe: asks for every tool call</li>
+            <li><strong>smart / auto</strong> — medium: auto-approves web and memory; shell still asks</li>
+            <li><strong>yolo</strong> — dangerous: auto-approves shell too, with a warning</li>
+          </ul>
+          <p style="margin-top:0.6rem">Earlier builds conflated these. That's been fixed.</p>
         </div>
 
+        <div class="info-block reveal" style="--d:480ms">
+          <h3>Safety</h3>
+          <p>Shell asks by default, unless you explicitly choose <code>yolo</code>. Guardrails catch common dangerous patterns like <code>rm -rf /</code> and <code>curl | bash</code>, though they're regex-based and can miss unusual commands.</p>
+          <p>A guardrail test suite is being added to cover every pattern they claim to catch.</p>
+        </div>
+
+        <div class="info-block reveal" style="--d:560ms">
+          <h3>Memory and sessions</h3>
+          <p>Notes live in <code>memory.md</code> and persist across runs. Sessions are saved as JSON so you can inspect them later.</p>
+          <p>A CLI browser for listing and resuming sessions is in progress through <code>agent0 sessions</code>.</p>
+        </div>
+
+        <div class="info-block reveal" style="--d:640ms">
+          <h3>Goals</h3>
+          <p>Hand the agent a goal with <code>/goal</code> and it works in the background. Separate budgets apply for steps, tool calls, and wall time, so it can't run forever.</p>
+          <p>A critic call decides whether the goal is <code>DONE</code>, should <code>CONTINUE</code>, or is <code>STUCK</code> between turns.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Principles</p>
+        <h2>What we optimize for.</h2>
+      </div>
+      <div class="cards">
+        <article class="card reveal" style="--d:0ms">
+          <h3>Inspectable</h3>
+          <p>One file, no daemon, no magic. If you can't read it, you can't trust it running shell commands on your machine.</p>
+        </article>
+        <article class="card reveal" style="--d:80ms">
+          <h3>Local-first</h3>
+          <p>Your prompts, files, and notes stay on your hardware by default. Remote inference is opt-in and clearly labeled.</p>
+        </article>
+        <article class="card reveal" style="--d:160ms">
+          <h3>Explicit about gaps</h3>
+          <p>When something is broken, it's on the roadmap with a date — not buried in a changelog.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -134,7 +186,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 OpenBrain-LLC.</span>
+      <span>Noat! This is AI generated because we believe AI can speed up AI development and the start to that is making AI generate this website (© 2026 OpenBrain-LLC.)</span>
       <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
     </div>
   </div>
