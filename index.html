@@ -11,6 +11,13 @@
 <link rel="stylesheet" href="static/style.css">
 <link rel="stylesheet" href="static/light.css">
 <link rel="stylesheet" href="static/dark.css" media="(prefers-color-scheme: dark)">
+<style>
+  /* Push the hero (and its "An AI agent that runs on your machine." heading) further down the page */
+  .hero { margin-top: 72px; }
+  @media (max-width: 760px) {
+    .hero { margin-top: 40px; }
+  }
+</style>
 </head>
 <body>
 
@@ -53,7 +60,7 @@
         </p>
         <div class="hero-actions reveal" style="--d:180ms">
           <a class="btn" href="https://github.com/OpenBrain-LLC/Agent-0" target="_blank" rel="noopener">View Agent-0</a>
-          <a class="btn btn-ghost" href="news/introducing-agent-0.html">Read the introduction</a>
+          <a class="btn btn-ghost" href="chat.html">Introducing Cobalt</a>
         </div>
       </div>
       <div class="reveal" style="--d:240ms">
@@ -80,7 +87,7 @@
     <div class="wrap">
       <div class="section-head reveal">
         <p class="eyebrow">Start here</p>
-        <h2>Three quick links.</h2>
+        <h2>Four quick links.</h2>
       </div>
       <div class="cards">
         <article class="card reveal" style="--d:0ms">
@@ -104,6 +111,14 @@
           <p>A dated view of what's done, in progress, and next.</p>
           <a class="card-link" href="roadmap.html">
             See what's next
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+        <article class="card reveal" style="--d:240ms">
+          <h3>Cobalt Chat</h3>
+          <p>Talk to Cobalt, the agent behind Agent-0. It writes files, runs shell commands in its workspace, and renders live HTML previews.</p>
+          <a class="card-link" href="chat.html">
+            Open chat
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </article>
